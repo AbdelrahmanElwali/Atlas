@@ -1,0 +1,88 @@
+<div class="page">
+  <a routerLink="/countries" class="back">← All countries</a>
+
+  @if (error(); as err) {
+    <app-error-panel [message]="err" (retry)="retry()" />
+  } @else if (loading()) {
+    <div class="skel-hero glass" aria-hidden="true">
+      <div class="skel-flag shimmer"></div>
+      <div class="skel-lines">
+        <div class="skel-line lg shimmer"></div>
+        <div class="skel-line md shimmer"></div>
+        <div class="skel-line sm shimmer"></div>
+      </div>
+    </div>
+  } @else if (country(); as c) {
+    <header class="hero glass">
+      <div class="flag-block">
+        <span class="emoji" aria-hidden="true">{{ c.flagEmoji }}</span>
+        <img class="flag-lg" [src]="c.flagPng" [alt]="'Flag of ' + c.commonName" width="320" height="213" />
+      </div>
+      <div class="intro">
+        <h1 class="name">{{ c.commonName }}</h1>
+        <p class="official">{{ c.officialName }}</p>
+        <div class="chips">
+          <span class="chip">{{ c.cca2 }}</span>
+          <span class="chip">{{ c.cca3 }}</span>
+          <span class="chip">{{ c.region }}</span>
+          @if (c.subregion) {
+            <span class="chip subtle">{{ c.subregion }}</span>
+          }
+        </div>
+      </div>
+    </header>
+
+    <div class="grid-two">
+      <section class="panel glass">
+        <h2 class="panel-title">Facts</h2>
+        <dl class="facts">
+          <div class="row">
+            <dt>Capital</dt>
+            <dd>{{ c.capital }}</dd>
+          </div>
+          <div class="row">
+            <dt>Population</dt>
+            <dd>{{ c.population | number }}</dd>
+          </div>
+          <div class="row">
+            <dt>Coordinates</dt>
+            <dd class="mono">{{ c.lat }}, {{ c.lng }}</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="panel glass">
+        <h2 class="panel-title">Translations</h2>
+        @if (translationEntries(c).length) {
+          <ul class="translations">
+            @for (t of translationEntries(c); track t.key) {
+              <li>
+                <span class="lang">{{ t.key }}</span>
+                <span class="val">{{ t.value }}</span>
+              </li>
+            }
+          </ul>
+        } @else {
+          <p class="muted">No translations provided.</p>
+        }
+      </section>
+    </div>
+
+    <section class="map-section glass">
+      <div class="map-head">
+        <h2 class="panel-title">Map</h2>
+        <a class="map-link" [href]="osmLink()" target="_blank" rel="noopener noreferrer">Open in OpenStreetMap</a>
+      </div>
+      @if (mapEmbedUrl(); as src) {
+        <div class="map-frame">
+          <iframe
+            title="Map preview"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            [src]="src"
+          ></iframe>
+        </div>
+      }
+    </section>
+  }
+</div>

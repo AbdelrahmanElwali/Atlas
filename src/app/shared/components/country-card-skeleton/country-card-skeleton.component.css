@@ -1,0 +1,66 @@
+.skel {
+  border-radius: var(--radius-lg);
+  padding: 1.15rem 1.2rem 1.25rem;
+  border: 1px solid var(--glass-border);
+  height: 100%;
+  min-height: 200px;
+}
+
+.skel-flag-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.85rem;
+}
+
+.skel-circle {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+}
+
+.skel-img {
+  width: 72px;
+  height: 48px;
+  border-radius: 6px;
+}
+
+.skel-line {
+  border-radius: 6px;
+  height: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.skel-title {
+  width: 70%;
+  height: 1rem;
+}
+
+.skel-meta {
+  width: 55%;
+}
+
+.skel-pop {
+  width: 40%;
+  margin-top: 0.5rem;
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--skeleton-base) 0%,
+    var(--skeleton-shine) 50%,
+    var(--skeleton-base) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.35s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

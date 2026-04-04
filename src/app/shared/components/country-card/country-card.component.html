@@ -1,0 +1,25 @@
+<a class="card glass" [routerLink]="detailLink(country())">
+  <div class="flag-row">
+    <span class="emoji" aria-hidden="true">{{ country().flagEmoji }}</span>
+    <img
+      class="flag-img"
+      [src]="country().flagPng"
+      [alt]="'Flag of ' + country().commonName"
+      width="72"
+      height="48"
+      loading="lazy"
+    />
+  </div>
+  <div class="body">
+    <h3 class="name">{{ country().commonName }}</h3>
+    <p class="meta">
+      <span class="capital">{{ country().capital }}</span>
+      <span class="dot" aria-hidden="true">·</span>
+      <span class="region">{{ country().region }}</span>
+    </p>
+    <p class="pop">
+      {{ country().population | number }}
+      <span class="pop-label">people</span>
+    </p>
+  </div>
+</a>

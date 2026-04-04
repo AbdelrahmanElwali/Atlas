@@ -1,0 +1,69 @@
+<div class="page">
+  <header class="page-head">
+    <div class="titles">
+      <a routerLink="/" class="back">← Home</a>
+      <h1 class="title">Countries</h1>
+      @if (searchActive() && activeSearch()) {
+        <p class="hint">
+          Results for “<span class="q">{{ activeSearch() }}</span>”
+          <button type="button" class="linkish" (click)="clearSearch()">Clear search</button>
+        </p>
+      } @else {
+        <p class="hint">Scroll to load more, or pick a region below.</p>
+      }
+    </div>
+  </header>
+
+  @if (error(); as err) {
+    <app-error-panel [message]="err" (retry)="retry()" />
+  } @else {
+    @if (!searchActive() && regions().length) {
+      <div class="tabs-wrap">
+        <div class="tabs glass" role="tablist" aria-label="Filter by region">
+          <button
+            type="button"
+            role="tab"
+            class="tab"
+            [class.active]="selectedRegion() === null"
+            [attr.aria-selected]="selectedRegion() === null"
+            (click)="setRegion(null)"
+          >
+            All regions
+          </button>
+          @for (r of regions(); track r) {
+            <button
+              type="button"
+              role="tab"
+              class="tab"
+              [class.active]="selectedRegion() === r"
+              [attr.aria-selected]="selectedRegion() === r"
+              (click)="setRegion(r)"
+            >
+              {{ r }}
+            </button>
+          }
+        </div>
+      </div>
+    }
+
+    @if (loading()) {
+      <div class="grid">
+        @for (i of skeletonIndices; track i) {
+          <app-country-card-skeleton />
+        }
+      </div>
+    } @else {
+      <div class="grid">
+        @for (c of visibleList(); track c.cca3) {
+          <app-country-card [country]="c" />
+        }
+      </div>
+      @if (hasMore()) {
+        <div class="sentinel" appObserveVisibility (becameVisible)="loadMore()"></div>
+      }
+      @if (!visibleList().length && !loading()) {
+        <p class="empty glass">No countries match this view.</p>
+      }
+    }
+  }
+</div>

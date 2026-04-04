@@ -1,0 +1,57 @@
+<section class="hero">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-inner">
+    <p class="eyebrow">World atlas</p>
+    <h1 class="headline">
+      Discover every nation,
+      <span class="accent">in any language</span>
+    </h1>
+    <p class="sub">
+      Search in English or Arabic, explore regions, and open rich country profiles powered by your API.
+    </p>
+
+    <form class="search-wrap" (ngSubmit)="submitSearch($event)" role="search">
+      <label class="sr-only" for="hero-search">Search countries</label>
+      <div class="search-field glass">
+        <span class="search-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="7" />
+            <path d="M21 21l-4.35-4.35" />
+          </svg>
+        </span>
+        <input
+          id="hero-search"
+          type="search"
+          class="search-input"
+          placeholder="Try Egypt, EG, or مصر…"
+          [ngModel]="searchText()"
+          (ngModelChange)="onSearchInput($event)"
+          name="q"
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <button type="submit" class="search-submit">Search</button>
+      </div>
+    </form>
+
+    <div class="cta-row">
+      <button type="button" class="btn-primary" (click)="browseAll()">Browse all countries</button>
+      <a routerLink="/countries" class="btn-ghost">Open grid</a>
+    </div>
+  </div>
+</section>
+
+<section class="features">
+  <article class="feat glass">
+    <h2>Bilingual search</h2>
+    <p>Names and translations from your API—Arabic and English supported end to end.</p>
+  </article>
+  <article class="feat glass">
+    <h2>Regional journeys</h2>
+    <p>Glide through regions with animated tabs and a layout that scales from phone to desktop.</p>
+  </article>
+  <article class="feat glass">
+    <h2>Deep detail</h2>
+    <p>Flags, capitals, coordinates, and maps in a focused profile view.</p>
+  </article>
+</section>

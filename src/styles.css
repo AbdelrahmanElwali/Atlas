@@ -1,1 +1,151 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global design system: deep navy, charcoal, gold accents */
+:root {
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-arabic: 'Noto Sans Arabic', 'Plus Jakarta Sans', system-ui, sans-serif;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+}
+
+[data-theme='dark'],
+:root:not([data-theme]) {
+  color-scheme: dark;
+  --navy-deep: #070d18;
+  --navy-mid: #0c1629;
+  --charcoal: #141e35;
+  --charcoal-elevated: #1a2744;
+  --accent: #d4a853;
+  --accent-bright: #e8c066;
+  --accent-soft: #8b6914;
+  --text-primary: #f2f4f8;
+  --text-secondary: #c5cad6;
+  --text-muted: #8b93a8;
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.35);
+  --shadow-card-hover: 0 16px 48px rgba(0, 0, 0, 0.45);
+  --shadow-header: 0 4px 24px rgba(0, 0, 0, 0.25);
+  --danger: #e85d6f;
+  --skeleton-base: rgba(255, 255, 255, 0.06);
+  --skeleton-shine: rgba(255, 255, 255, 0.14);
+  --page-bg: radial-gradient(ellipse 120% 80% at 50% -20%, #1a2d52 0%, transparent 55%),
+    radial-gradient(ellipse 80% 50% at 100% 50%, rgba(212, 168, 83, 0.07), transparent 50%),
+    linear-gradient(180deg, var(--navy-deep) 0%, var(--navy-mid) 45%, var(--charcoal) 100%);
+}
+
+[data-theme='light'] {
+  color-scheme: light;
+  --navy-deep: #0a1628;
+  --navy-mid: #f4f1ea;
+  --charcoal: #e8e4dc;
+  --charcoal-elevated: #ffffff;
+  --accent: #b8860b;
+  --accent-bright: #c99a1c;
+  --accent-soft: #8b6914;
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  --glass-border: rgba(15, 23, 42, 0.1);
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --shadow-card: 0 8px 28px rgba(15, 23, 42, 0.08);
+  --shadow-card-hover: 0 16px 40px rgba(15, 23, 42, 0.12);
+  --shadow-header: 0 4px 20px rgba(15, 23, 42, 0.06);
+  --danger: #c0263a;
+  --skeleton-base: rgba(15, 23, 42, 0.06);
+  --skeleton-shine: rgba(15, 23, 42, 0.12);
+  --page-bg: radial-gradient(ellipse 100% 60% at 50% -10%, rgba(184, 134, 11, 0.12), transparent 55%),
+    linear-gradient(180deg, #fdfcfa 0%, #f0ebe3 100%);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  font-family: var(--font-sans);
+  background: var(--page-bg);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Arabic-friendly copy in search and translations */
+input,
+textarea,
+[lang='ar'],
+.translations .val {
+  font-family: var(--font-arabic);
+}
+
+.glass {
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--charcoal-elevated) 88%, transparent) 0%,
+    color-mix(in srgb, var(--charcoal-elevated) 55%, transparent) 100%
+  );
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+[data-theme='light'] .glass {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.65));
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.32s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+::view-transition-old(root) {
+  animation-name: vt-fade-out;
+}
+
+::view-transition-new(root) {
+  animation-name: vt-fade-in;
+}
+
+@keyframes vt-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes vt-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}

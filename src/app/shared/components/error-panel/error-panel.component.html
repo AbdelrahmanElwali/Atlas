@@ -1,0 +1,8 @@
+<div class="panel glass" role="alert">
+  <div class="icon" aria-hidden="true">!</div>
+  <div class="text">
+    <h2 class="title">We couldn’t load this</h2>
+    <p class="msg">{{ message() }}</p>
+  </div>
+  <button type="button" class="retry" (click)="retry.emit()">Try again</button>
+</div>
