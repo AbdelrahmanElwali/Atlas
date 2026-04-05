@@ -1,0 +1,181 @@
+<div class="docs">
+  <section class="hero" aria-labelledby="docs-title">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <p class="eyebrow">REST reference</p>
+      <h1 id="docs-title" class="headline">Atlas Countries API</h1>
+      <p class="sub">
+        JSON endpoints for listing, searching, and filtering world countries—including Arabic and English name search.
+      </p>
+      <div class="base-row glass">
+        <div class="base-label">Base URL</div>
+        <code class="base-url">{{ baseUrl }}</code>
+        <button type="button" class="copy-btn" (click)="copyBaseUrl()">Copy</button>
+      </div>
+      @if (copyHint()) {
+        <p class="copy-hint" role="status">{{ copyHint() }}</p>
+      }
+    </div>
+  </section>
+
+  <div class="docs-inner">
+    <section class="block" aria-labelledby="endpoints-heading">
+      <h2 id="endpoints-heading" class="block-title">Endpoints</h2>
+      <p class="block-lead">All routes are served over HTTP and return JSON. Encode path parameters when they contain spaces or non-Latin characters.</p>
+      <ul class="endpoint-list">
+        @for (ep of endpoints; track ep.path) {
+          <li class="endpoint glass">
+            <div class="endpoint-head">
+              <span class="method">{{ ep.method }}</span>
+              <code class="path">{{ baseUrl }}{{ ep.path }}</code>
+            </div>
+            <p class="endpoint-desc">{{ ep.description }}</p>
+            <details class="example-details">
+              <summary>Example response</summary>
+              <pre class="code-block" tabindex="0"><code>{{ ep.exampleJson }}</code></pre>
+            </details>
+          </li>
+        }
+      </ul>
+    </section>
+
+    <section class="block" aria-labelledby="code-heading">
+      <h2 id="code-heading" class="block-title">Code examples</h2>
+      <p class="block-lead">The same flows in three common stacks: browser JavaScript, Python with Requests, and .NET.</p>
+      <div class="tabs glass" role="tablist" aria-label="Example language">
+        <button
+          type="button"
+          role="tab"
+          [attr.aria-selected]="codeLang() === 'javascript'"
+          class="tab"
+          [class.active]="codeLang() === 'javascript'"
+          (click)="setLang('javascript')"
+        >
+          JavaScript
+        </button>
+        <button
+          type="button"
+          role="tab"
+          [attr.aria-selected]="codeLang() === 'python'"
+          class="tab"
+          [class.active]="codeLang() === 'python'"
+          (click)="setLang('python')"
+        >
+          Python
+        </button>
+        <button
+          type="button"
+          role="tab"
+          [attr.aria-selected]="codeLang() === 'csharp'"
+          class="tab"
+          [class.active]="codeLang() === 'csharp'"
+          (click)="setLang('csharp')"
+        >
+          C#
+        </button>
+      </div>
+      <pre class="code-panel glass" role="tabpanel"><code>{{ codeByLang[codeLang()] }}</code></pre>
+    </section>
+
+    <section class="block" aria-labelledby="schema-heading">
+      <h2 id="schema-heading" class="block-title">Response schema</h2>
+      <p class="block-lead">
+        Each country is a single JSON object. List endpoints return a JSON array of these objects; the country-by-code endpoint returns one object.
+      </p>
+      <div class="schema-wrap glass">
+        <table class="schema-table">
+          <thead>
+            <tr>
+              <th scope="col">Field</th>
+              <th scope="col">Type</th>
+              <th scope="col">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of schemaRows; track row.field) {
+              <tr>
+                <td><code class="field">{{ row.field }}</code></td>
+                <td><span class="type-pill">{{ row.type }}</span></td>
+                <td>{{ row.description }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="block try-block" aria-labelledby="try-heading">
+      <h2 id="try-heading" class="block-title">Try it</h2>
+      <p class="block-lead">Send a live GET request from your browser. If the response is blocked, check CORS settings on the API or use a server-side client instead.</p>
+      <div class="try-grid glass">
+        <div class="try-controls">
+          <fieldset class="try-fieldset">
+            <legend class="try-legend">Endpoint</legend>
+            <div class="try-modes">
+              <label class="radio-label">
+                <input type="radio" name="tryMode" value="list" [ngModel]="tryMode()" (ngModelChange)="setTryMode($event)" />
+                <span>All countries</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="tryMode" value="code" [ngModel]="tryMode()" (ngModelChange)="setTryMode($event)" />
+                <span>By code</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="tryMode" value="name" [ngModel]="tryMode()" (ngModelChange)="setTryMode($event)" />
+                <span>By name</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="tryMode" value="region" [ngModel]="tryMode()" (ngModelChange)="setTryMode($event)" />
+                <span>By region</span>
+              </label>
+            </div>
+          </fieldset>
+          @if (tryMode() === 'code') {
+            <label class="field-label">
+              <span>Country code</span>
+              <input type="text" class="field-input" [ngModel]="tryCode()" (ngModelChange)="tryCode.set($event)" placeholder="EG or EGY" autocomplete="off" />
+            </label>
+          }
+          @if (tryMode() === 'name') {
+            <label class="field-label">
+              <span>Name (English or Arabic)</span>
+              <input type="text" class="field-input" [ngModel]="tryName()" (ngModelChange)="tryName.set($event)" placeholder="Egypt or مصر" autocomplete="off" />
+            </label>
+          }
+          @if (tryMode() === 'region') {
+            <label class="field-label">
+              <span>Region</span>
+              <input type="text" class="field-input" [ngModel]="tryRegion()" (ngModelChange)="tryRegion.set($event)" placeholder="Africa" autocomplete="off" />
+            </label>
+          }
+          <div class="try-url-row">
+            <span class="field-label full">
+              <span>Request URL</span>
+              <code class="url-preview">{{ tryUrl() }}</code>
+            </span>
+          </div>
+          <button type="button" class="run-btn" (click)="runTry()" [disabled]="tryLoading()">
+            @if (tryLoading()) {
+              Sending…
+            } @else {
+              Send request
+            }
+          </button>
+        </div>
+        <div class="try-output">
+          @if (tryError()) {
+            <p class="try-error" role="alert">{{ tryError() }}</p>
+          }
+          @if (tryStatus() !== null) {
+            <p class="try-status">HTTP <strong>{{ tryStatus() }}</strong></p>
+          }
+          @if (tryBody()) {
+            <pre class="code-block out" tabindex="0"><code>{{ tryBody() }}</code></pre>
+          } @else if (!tryLoading() && tryStatus() === null && !tryError()) {
+            <p class="try-placeholder">Response will appear here after you send a request.</p>
+          }
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

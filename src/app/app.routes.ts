@@ -18,5 +18,10 @@ export const routes: Routes = [
       import('./features/countries/country-detail.component').then((m) => m.CountryDetailComponent),
     title: 'Country',
   },
+  {
+    path: 'docs',
+    loadComponent: () => import('./features/api-docs/api-docs.component').then((m) => m.ApiDocsComponent),
+    title: 'API documentation',
+  },
   { path: '**', redirectTo: '' },
 ];
